@@ -1,0 +1,14 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/typescript-node",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Zazuko.vscode-rdf-sketch",
+                "stardog-union.stardog-rdf-grammars"
+            ]
+        }
+    },
+    "forwardPorts": [
+        3000
+    ]
+}

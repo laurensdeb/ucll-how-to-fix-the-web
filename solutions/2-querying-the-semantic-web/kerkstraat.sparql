@@ -1,0 +1,9 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT count ( distinct ?stad ) WHERE {
+  ?adres <https://data.vlaanderen.be/ns/adres#heeftGemeentenaam> ?stad .
+  ?stad rdfs:label ?stadNaam.
+  ?adres <https://data.vlaanderen.be/ns/adres#heeftStraatnaam> ?naam.
+  ?naam rdfs:label "Kerkstraat"@nl.
+ }
+ LIMIT 10

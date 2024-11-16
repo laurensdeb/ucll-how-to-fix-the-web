@@ -1,0 +1,6 @@
+{
+	"recommendations": [
+		"Zazuko.vscode-rdf-sketch",
+        "stardog-union.stardog-rdf-grammars"
+	]
+}

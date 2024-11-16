@@ -14,12 +14,96 @@ The exercises use VSCode devcontainers to provide a uniform environment for tryi
 ## 1. Exploring the Semantic Web
 [RDF](https://www.w3.org/RDF/) is the foundational information model of the Semantic Web. Several different serializations of RDF exist, the most popular of which are [JSON-LD](https://json-ld.org/), [Turtle](https://www.w3.org/TR/turtle/) and [N-Quads](https://www.w3.org/TR/n-quads/).
 
-TODO: Show basic information model
+### Basic Information Model
 
-TODO: Contact information as linked data
+The Resource Description Framework (RDF) represents information as **triples** - simple statements consisting of three parts:
 
-1. Create your own contact profile as Linked Data, as demonstrated above. (**SIMPLE**)
-2. Now what if you want to add some of your interests to this profile? What vocabularies could you use? How would you go about finding them? (**INTERMEDIATE**)
+- **Subject**: The thing we're describing
+- **Predicate**: The property or relationship we're expressing
+- **Object**: The value or related thing
+
+Each triple forms a single fact, and multiple triples together create a graph of interconnected information.
+
+### Finding and Using Vocabularies
+
+Before creating Linked Data, it's important to know where to find existing vocabularies. Two essential resources are:
+
+1. **[Linked Open Vocabularies (LOV)](https://lov.linkeddata.es)**: A comprehensive catalog of reusable vocabularies that:
+   - Provides detailed information about vocabularies
+   - Shows relationships between different vocabularies
+   - Helps you find the most appropriate terms for your data
+   - Indicates vocabulary usage and popularity
+
+2. **[prefix.cc](https://prefix.cc)**: A searchable registry of common RDF prefixes. This helps you:
+   - Find commonly used namespace prefixes
+   - Look up prefixes you encounter in RDF data
+   - Discover vocabularies related to specific domains
+
+### Contact Information Example
+
+Let's see how we can represent contact information using RDF. We'll use two common vocabularies:
+- **vCard**: A widely used vocabulary for contact information
+- **FOAF** (Friend of a Friend): A vocabulary for describing people and their relationships
+
+Here's an example in Turtle format (a human-friendly way to write RDF):
+
+```turtle
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# Define a person with their contact details
+<http://example.org/people/alice>
+    # Basic personal information
+    a foaf:Person ;
+    foaf:name "Alice Johnson" ;
+    foaf:givenName "Alice" ;
+    foaf:familyName "Johnson" ;
+    
+    # Contact information using vCard vocabulary
+    vcard:hasEmail <mailto:alice@example.org> ;
+    vcard:hasTelephone <tel:+1-555-123-4567> ;
+    
+    # Physical address
+    vcard:hasAddress [
+        a vcard:Address ;
+        vcard:street-address "123 Main Street" ;
+        vcard:locality "Springfield" ;
+        vcard:region "IL" ;
+        vcard:postal-code "62701" ;
+        vcard:country-name "United States"
+    ] ;
+    
+    # Social profiles
+    foaf:homepage <https://alice-johnson.example.org> ;
+    foaf:account [
+        a foaf:OnlineAccount ;
+        foaf:accountServiceHomepage <https://twitter.com> ;
+        foaf:accountName "@alicej"
+    ] .
+```
+
+Let's break down the key concepts:
+
+1. **Prefixes**: The `@prefix` statements at the top define shortcuts for commonly used URIs. This makes the document more readable.
+
+2. **Subject**: `<http://example.org/people/alice>` is a unique identifier (URI) for Alice.
+
+3. **Multiple Predicates**: Each line adds a new fact using different predicates from our chosen vocabularies.
+
+4. **Blank Nodes**: The square brackets `[ ]` create unnamed nodes for complex structures like addresses.
+
+5. **Semicolons and Periods**: In Turtle syntax:
+   - Semicolons (`;`) connect multiple predicates to the same subject
+   - Periods (`.`) end a set of statements about a subject
+
+### Exercises
+
+1. Create your own contact profile as Linked Data, as demonstrated above. Use prefix.cc to find appropriate vocabularies if you want to add additional information. (**SIMPLE**)
+
+2. Now what if you want to add some of your interests to this profile? Use LOV to find appropriate vocabularies for describing:  (**INTERMEDIATE**)
+   - Hobbies and interests
+   - Skills and expertise
+   - Educational background
 
 
 ## 2. Querying the Semantic Web

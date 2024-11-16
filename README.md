@@ -7,7 +7,9 @@ Install [Visual Studio Code](https://code.visualstudio.com/) on your machine.
 
 Ensure you have a [Docker](https://docs.docker.com/desktop/) or [Podman](https://podman.io/) installation.
 
-Clone this repository and open it in Visual Studio Code. You will be recommended some extensions, install them.
+Clone this repository and open it in Visual Studio Code.
+
+The exercises use VSCode devcontainers to provide a uniform environment for trying 
 
 ## 1. Exploring the Semantic Web
 [RDF](https://www.w3.org/RDF/) is the foundational information model of the Semantic Web. Several different serializations of RDF exist, the most popular of which are [JSON-LD](https://json-ld.org/), [Turtle](https://www.w3.org/TR/turtle/) and [N-Quads](https://www.w3.org/TR/n-quads/).
@@ -84,6 +86,94 @@ Now, over to you:
 ## 3. Getting started with Solid
 For the next part of our exercise we will be using the [Community Solid Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
 
+In the VSCode devcontainer all necessary dependencies should have been installed already such that you should simply run the following command to get a working Solid server:
 ```sh
 npx @solid/community-server -c @css:config/file.json -f data/
 ```
+### Create an account, Pod and WebID
+In order to create an account with the Community Solid Server [click here](http://localhost:3000/.account/login/password/register/).
+
+You should be presented with the screen below afterwards, where you can create a new Pod or link an existing WebID (should you have one).
+
+![Overview after account creation](img/pod-overview.png)
+
+Click the "Create pod" link in this overview. Choose a name for your Pod and select the checkmark "Use the WebID in the Pod and register it to your account." to get started quickly.
+
+![Create a Pod](img/create-pod.png)
+
+After succesful creation of your Pod and associated WebID you will be presented with the following overview.
+
+![After Pod creation](img/after-pod-creation.png)
+
+After creating your Pod, check out your WebID by opening it in your web browser or fetching it with `curl`:
+
+`curl http://localhost:3000/example/profile/card`
+
+This will yield something like:
+```turtle
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+
+<>
+    a foaf:PersonalProfileDocument;
+    foaf:maker <http://localhost:3000/laurens/profile/card#me>;
+    foaf:primaryTopic <http://localhost:3000/laurens/profile/card#me>.
+
+<http://localhost:3000/laurens/profile/card#me>
+    
+    solid:oidcIssuer <http://localhost:3000/>;
+    a foaf:Person.
+```
+
+The most important triple in this document is `<http://localhost:3000/laurens/profile/card#me> solid:oidcIssuer <http://localhost:3000/>`, which links my WebID to the OIDC Identity Provider hosted by the Community Solid Server.
+
+### Using a Pod browser to explore a Solid Pod
+
+Next, we'll use a Pod browser to explore the contents of our new Solid Pod. Penny is a great open-source Pod browser by Vincent Tunru (see [Gitlab](https://gitlab.com/vincenttunru/penny)).
+
+Go to https://penny.vincenttunru.com/ and type `http://localhost:3000` when asked for the URI of your Pod.
+
+![](img/penny-home.png)
+
+You'll be redirected to the Community Solid Server and will have to grant permissions for Penny to access your Pod(s) on your behalf.
+
+Next, you should see an overview of your Pods. Choose one of them.
+
+![](img/penny-pod-overview.png)
+
+Now let's edit our WebID, to add a `foaf:firstName` and `foaf:name` to it. So that people resolving our WebID know who we are.
+
+Click through to the `profile/` directory, then the `card` resource as shown below.
+
+![](img/penny-browse-1.png)
+![](img/penny-browse-2.png)
+
+Next, we can either use the visual editor and click the "Add new property" button. Or, if we're feeling adventurous, we can edit the raw Turtle with the button at the bottom of the Pod browser. 
+
+![](img/penny-card-edit.png)
+
+If you've completed the first exercise this should be pretty easy.
+
+Next, we'll explore Access Control Lists. An interesting example of this is the ACL applied to our WebID.
+
+At the bottom of the edit page of the `card` resource, go to "Linked Resources" then "Access Control Lists".
+
+You should see something like this.
+![](img/penny-card-acls.png)
+
+Note that our WebID has two entries in the WAC access control list, one granting read and write access to the owner (notice your WebID listed in this ACL) and another granting only read access to the public.
+
+ACLs are the basic authorization mechanism in a Solid Pod, they can be used to grant specific access modes on one or more resources to a specific agent using their WebID.
+
+### Next steps
+Unfortunately, our time here today is limited. So developing a fully fledged application using Solid Pods would take us too far.
+
+However, if you're interested in building your own web application with Solid Pods, you can check out this [tutorial by Virginia Balseiro](https://virginiabalseiro.com/blogposts/tutorial-create-a-solid-to-do-app), co-Chair of the Solid Community Group at W3C.
+
+If you're interested in using Solid in other languages, check out https://solidproject.org/for-developers.
+
+## Acknowledgements
+- [Comunica](https://comunica.dev)
+- [Web Fundamentals](https://rubenverborgh.github.io/WebFundamentals) by Ruben Verborgh
+- [LBLOD Documentatie](https://lblod.github.io/pages-vendors/)
+- [Data Vlaanderen](https://data.vlaanderen.be)

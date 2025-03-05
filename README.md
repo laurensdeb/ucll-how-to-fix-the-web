@@ -3,13 +3,13 @@
 Now that we've learned about the origins of the Web, the boom of APIs in the 2010s and the potential of Linked Data and Solid, it's time for some hands-on experience.
 
 ## Pre-requisites
+Recommended (not required):
+
 Install [Visual Studio Code](https://code.visualstudio.com/) on your machine.
 
 Ensure you have a [Docker](https://docs.docker.com/desktop/) or [Podman](https://podman.io/) installation.
 
 Clone this repository and open it in Visual Studio Code.
-
-The exercises use VSCode devcontainers to provide a uniform environment for trying 
 
 ## 1. Exploring the Semantic Web
 [RDF](https://www.w3.org/RDF/) is the foundational information model of the Semantic Web. Several different serializations of RDF exist, the most popular of which are [JSON-LD](https://json-ld.org/), [Turtle](https://www.w3.org/TR/turtle/) and [N-Quads](https://www.w3.org/TR/n-quads/).
@@ -245,7 +245,7 @@ Note that our WebID has two entries in the WAC access control list, one granting
 
 ACLs are the basic authorization mechanism in a Solid Pod, they can be used to grant specific access modes on one or more resources to a specific agent using their WebID.
 
-Now, ovr01234567er to you:
+Now, over to you:
 1. Create a new resource at the root of your Solid Pod, and name it "answers". (**EASY**)
 2. Update the ACL for this resource, in order to make it publicly readable. (**MODERATE**) (Hint: check the ACLs of your WebID.)
 3. Update the resource to contain the answers of part 2 of this lab session. (**MODERATE**)

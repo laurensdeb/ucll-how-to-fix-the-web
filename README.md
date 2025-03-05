@@ -180,6 +180,10 @@ In order to create an account with the Community Solid Server navigate to the UR
 > [!IMPORTANT]  
 > When creating your new Pod, use your student number (e.g. r01234567) as the Pod name.
 
+> [!IMPORTANT]  
+> If you are experiencing issues with creating a Pod in the UCLL instances, go to https://solidcommunity.net and create a Pod over there.
+> As the name of your Pod, use your student number. Please give a heads-up to your teachers if you are encountering this.
+
 ![Account creation screen](img/create-pod.png)
 
 You should be presented with the screen below afterwards, indicating your newly created WebID and Pod URI.
@@ -245,8 +249,11 @@ Note that our WebID has two entries in the WAC access control list, one granting
 
 ACLs are the basic authorization mechanism in a Solid Pod, they can be used to grant specific access modes on one or more resources to a specific agent using their WebID.
 
+> [!IMPORTANT]  
+> If you lock yourself out of your answers file, create a new file named "answers2".
+
 Now, over to you:
-1. Create a new resource at the root of your Solid Pod, and name it "answers". (**EASY**)
+1. Create a new resource at the root of your Solid Pod (for the UCLL instance this will be https://r01234567-css.apps.okd.ucll.cloud/r01234567, and for SolidCommunity.net this will be https://r01234567.solidcommunity.net) and name it "answers". (**EASY**)
 2. Update the ACL for this resource, in order to make it publicly readable. (**MODERATE**) (Hint: check the ACLs of your WebID.)
 3. Update the resource to contain the answers of part 2 of this lab session. (**MODERATE**)
 

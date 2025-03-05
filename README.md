@@ -131,7 +131,7 @@ WHERE {
 
 The Flemish government publishes several [base registries](https://basisregisters.vlaanderen.be/), to promote re-use of data and avoid double registrations. One of these base registries is the [buildings and address registry](https://www.vlaanderen.be/digitaal-vlaanderen/onze-oplossingen/gebouwen-en-adressenregister).
 
-The base registries are available through traditional [RESTful APIs](https://docs.basisregisters.vlaanderen.be/docs/api-documentation.html#tag/api-documentation.html) but follow a Linked Data standard defined by the Flemish OSLO initiative.
+The base registries are available through traditional [RESTful APIs](https://docs.basisregisters.vlaanderen.be/docs/api-documentation.html#tag/api-documentation.html) but follow a Linked Data standard defined by the [Flemish OSLO initiative](https://data.vlaanderen.be/).
 
 Following the principles of Linked Data, each building or address also has a unique URI associated with it. For example https://data.vlaanderen.be/doc/adres/3706808 is the URI associated with the address of Digitaal Vlaanderen in Ghent ("Koningin Maria-Hendrikaplein 70, 9000 Gent").
 
@@ -160,38 +160,35 @@ A basic graph pattern (BGP) in SPARQL is a set of triple patterns where you matc
 `?city rdfs:label "Gent"` will match any subject having a triple statement with predicate `rdfs:label` having the literal value `"Gent"`.
 
 
-
 Now, over to you:
 
 1. Can you modify the query above to find the URI of your home address (if you live in Flanders)? (**SIMPLE**)
 2. How many distinct cities in Flanders have a street named "Kerkstraat"? (**INTERMEDIATE**)
-3. Can you use your knowledge of SPARQL and Linked Data to figure out in which cities the political party "Groen" has a mayor in the last legislature? (**HARD**)
+3. The Flemish government also publishes data on [local politics as Linked Data](https://www.vlaanderen.be/agentschap-binnenlands-bestuur/blikvangers/lokale-besluiten-als-gelinkte-open-data). Can you use your knowledge of SPARQL and Linked Data to figure out in which cities the political party "Groen" has a mayor in the last legislature? (**HARD**) (Hint: See the [OSLO standard](https://data.vlaanderen.be/doc/applicatieprofiel/mandatendatabank/))
 
 ## 3. Getting started with Solid
 For the next part of our exercise we will be using the [Community Solid Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
 
-In the VSCode devcontainer all necessary dependencies should have been installed already such that you should simply run the following command to get a working Solid server:
-```sh
-npx @solid/community-server -c @css:config/file.json -f data/
-```
+UCLL is offering you a hosted instance of the Community Solid server for the duration of this lab. The URL of this instance will follow the structure: `https://<<your student number>>-css.apps.okd.ucll.cloud/`.
+
+> [!IMPORTANT]  
+> This part of the lab session is graded, please use your provided Solid server instance for the next steps.
+
 ### Create an account, Pod and WebID
-In order to create an account with the Community Solid Server [click here](http://localhost:3000/.account/login/password/register/).
+In order to create an account with the Community Solid Server navigate to the URI of your CSS instance (e.g. [r01234567-css.apps.okd.ucll.cloud](https://r01234567-css.apps.okd.ucll.cloud/)). And click the "Sign up for an account" link. You should see the screen below.
 
-You should be presented with the screen below afterwards, where you can create a new Pod or link an existing WebID (should you have one).
+> [!IMPORTANT]  
+> When creating your new Pod, use your student number (e.g. r01234567) as the Pod name.
 
-![Overview after account creation](img/pod-overview.png)
+![Account creation screen](img/create-pod.png)
 
-Click the "Create pod" link in this overview. Choose a name for your Pod and select the checkmark "Use the WebID in the Pod and register it to your account." to get started quickly.
-
-![Create a Pod](img/create-pod.png)
-
-After succesful creation of your Pod and associated WebID you will be presented with the following overview.
+You should be presented with the screen below afterwards, indicating your newly created WebID and Pod URI.
 
 ![After Pod creation](img/after-pod-creation.png)
 
 After creating your Pod, check out your WebID by opening it in your web browser or fetching it with `curl`:
 
-`curl http://localhost:3000/example/profile/card`
+`curl https://<<your student number>>-css.apps.okd.ucll.cloud/<<your student number>>/profile/card`
 
 This will yield something like:
 ```turtle
@@ -200,22 +197,21 @@ This will yield something like:
 
 <>
     a foaf:PersonalProfileDocument;
-    foaf:maker <http://localhost:3000/laurens/profile/card#me>;
-    foaf:primaryTopic <http://localhost:3000/laurens/profile/card#me>.
+    foaf:maker <https://r01234567-css.apps.okd.ucll.cloud/r01234567/profile/card#me>;
+    foaf:primaryTopic <https://r01234567-css.apps.okd.ucll.cloud/r01234567/profile/card#me>.
 
-<http://localhost:3000/laurens/profile/card#me>
-    
-    solid:oidcIssuer <http://localhost:3000/>;
+<https://r01234567-css.apps.okd.ucll.cloud/r01234567/profile/card#me>
+    solid:oidcIssuer <https://r01234567-css.apps.okd.ucll.cloud/>;
     a foaf:Person.
 ```
 
-The most important triple in this document is `<http://localhost:3000/laurens/profile/card#me> solid:oidcIssuer <http://localhost:3000/>`, which links my WebID to the OIDC Identity Provider hosted by the Community Solid Server.
+The most important triple in this document is `<https://r01234567-css.apps.okd.ucll.cloud/r01234567/profile/card#me> solid:oidcIssuer <https://r01234567-css.apps.okd.ucll.cloud/>`, which links my WebID to the [OIDC Identity Provider](https://openid.net/specs/openid-connect-core-1_0.html) hosted by the Community Solid Server.
 
 ### Using a Pod browser to explore a Solid Pod
 
 Next, we'll use a Pod browser to explore the contents of our new Solid Pod. Penny is a great open-source Pod browser by Vincent Tunru (see [Gitlab](https://gitlab.com/vincenttunru/penny)).
 
-Go to https://penny.vincenttunru.com/ and type `http://localhost:3000` when asked for the URI of your Pod.
+Go to https://penny.vincenttunru.com/ and type `https://<<your student number>>-css.apps.okd.ucll.cloud/` when asked for the URI of your Pod.
 
 ![](img/penny-home.png)
 
@@ -249,12 +245,49 @@ Note that our WebID has two entries in the WAC access control list, one granting
 
 ACLs are the basic authorization mechanism in a Solid Pod, they can be used to grant specific access modes on one or more resources to a specific agent using their WebID.
 
+Now, ovr01234567er to you:
+1. Create a new resource at the root of your Solid Pod, and name it "answers". (**EASY**)
+2. Update the ACL for this resource, in order to make it publicly readable. (**MODERATE**) (Hint: check the ACLs of your WebID.)
+3. Update the resource to contain the answers of part 2 of this lab session. (**MODERATE**)
+
+In order to simplify things, you can use the following template for the third exercise.
+```turtle
+@prefix ex: <http://example.org/> .
+
+# Answers to Part 2: Querying the Semantic Web
+<#answers> a ex:LabExerciseAnswers ;
+    ex:exercise "UCLL Web Innovation for Good Lab" ;
+    ex:part "Part 2: Querying the Semantic Web" ;
+    ex:studentNumber "r0XXXXXXX" ;  # Replace with your student number
+    ex:hasAnswer [
+        a ex:ExerciseAnswer ;
+        ex:questionNumber "1" ;
+        ex:questionDescription "Modified query to find URI of home address in Flanders" ;
+        ex:foundAddressURI "https://data.vlaanderen.be/doc/adres/YOUR_ADDRESS_URI"  # Replace with your found address URI
+    ] ;
+    ex:hasAnswer [
+        a ex:ExerciseAnswer ;
+        ex:questionNumber "2" ;
+        ex:questionDescription "Number of distinct cities in Flanders with a street named 'Kerkstraat'" ;
+        ex:cityCount "XX"  # Replace with the count you found
+    ] ;
+    ex:hasAnswer [
+        a ex:ExerciseAnswer ;
+        ex:questionNumber "3" ;
+        ex:questionDescription "Cities where political party 'Groen' has a mayor in the last legislature" ;
+        ex:citiesWithGreenMayor "City1, City2, City3"  # Replace with the cities you found
+    ] .
+```
+
 ### Next steps
 Unfortunately, our time here today is limited. So developing a fully fledged application using Solid Pods would take us too far.
 
-However, if you're interested in building your own web application with Solid Pods, you can check out this [tutorial by Virginia Balseiro](https://virginiabalseiro.com/blogposts/tutorial-create-a-solid-to-do-app), co-Chair of the Solid Community Group at W3C.
+After this lab session, in the VSCode devcontainer all necessary dependencies should have been installed such that you can run your own Community Solid Server like so:
+```sh
+npx @solid/community-server -c @css:config/file.json -f data/
+```
 
-If you're interested in using Solid in other languages, check out https://solidproject.org/for-developers.
+If you're interested in using Solid in application development, check out https://docs.inrupt.com/developer-tools/javascript/client-libraries/tutorial/authenticate-browser/ (JS) and https://docs.inrupt.com/developer-tools/java/client-libraries/introduction/ (Java)
 
 ## Acknowledgements
 - [Comunica](https://comunica.dev)

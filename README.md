@@ -164,7 +164,7 @@ Now, over to you:
 
 1. Can you modify the query above to find the URI of your home address (if you live in Flanders)? (**SIMPLE**)
 2. How many distinct cities in Flanders have a street named "Kerkstraat"? (**INTERMEDIATE**)
-3. The Flemish government also publishes data on [local politics as Linked Data](https://www.vlaanderen.be/agentschap-binnenlands-bestuur/blikvangers/lokale-besluiten-als-gelinkte-open-data). Can you use your knowledge of SPARQL and Linked Data to figure out in which cities the political party "Groen" has a mayor in the last legislature? (**HARD**) (Hint: See the [OSLO standard](https://data.vlaanderen.be/doc/applicatieprofiel/mandatendatabank/))
+3. The Flemish government also publishes data on [local politics as Linked Data](https://www.vlaanderen.be/agentschap-binnenlands-bestuur/blikvangers/lokale-besluiten-als-gelinkte-open-data). Can you use your knowledge of SPARQL and Linked Data to figure out in which cities the political party "Groen" has a mayor in the last legislature? (**HARD**) (Hint: See the [OSLO standard](https://data.vlaanderen.be/doc/applicatieprofiel/mandatendatabank/), Hint 2: See https://centrale-vindplaats.lblod.info/sparql)
 
 ## 3. Getting started with Solid
 For the next part of our exercise we will be using the [Community Solid Server](https://github.com/CommunitySolidServer/CommunitySolidServer).
